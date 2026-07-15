@@ -221,8 +221,15 @@ export function readPluginSdkSurfaceBudgets(env = process.env) {
       10612,
 =======
       // Used-union narrowing: 31 wildcard barrels, 10,612 -> 7,919 exports.
+<<<<<<< HEAD
       7919,
 >>>>>>> 0014d5100ac (refactor(plugin-sdk): narrow wildcard barrels to explicit used exports)
+||||||| parent of c4ee389ce2d (fix(plugin-sdk): keep documented proxy stream API until agent-core demotion)
+      7919,
+=======
+      // +3: proxy stream API (streamProxy + 2 types) retained until agent-core demotion.
+      7922,
+>>>>>>> c4ee389ce2d (fix(plugin-sdk): keep documented proxy stream API until agent-core demotion)
       env,
     ),
     publicFunctionExports: readPluginSdkSurfaceBudgetEnv(
@@ -238,8 +245,15 @@ export function readPluginSdkSurfaceBudgets(env = process.env) {
       5344,
 =======
       // Used-union narrowing: 31 wildcard barrels, 5,344 -> 4,426 callable exports.
+<<<<<<< HEAD
       4426,
 >>>>>>> 0014d5100ac (refactor(plugin-sdk): narrow wildcard barrels to explicit used exports)
+||||||| parent of c4ee389ce2d (fix(plugin-sdk): keep documented proxy stream API until agent-core demotion)
+      4426,
+=======
+      // +1: streamProxy retained until agent-core's announced public demotion.
+      4427,
+>>>>>>> c4ee389ce2d (fix(plugin-sdk): keep documented proxy stream API until agent-core demotion)
       env,
     ),
     publicDeprecatedExports: readPluginSdkSurfaceBudgetEnv(
