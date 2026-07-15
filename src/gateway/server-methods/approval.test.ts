@@ -826,6 +826,7 @@ describe("unified approval handlers", () => {
     });
     const context = createContext();
     const handlePluginApprovalResolved = vi.fn(async () => {});
+    const handlePluginIosPushResolved = vi.fn(async () => {});
     const forwarder = {
       handleRequested: vi.fn(async () => false),
       handleResolved: vi.fn(async () => {}),
@@ -837,6 +838,7 @@ describe("unified approval handlers", () => {
       execApprovalManager: managers.exec,
       pluginApprovalManager: managers.plugin,
       forwarder,
+      pluginIosPushDelivery: { handleResolved: handlePluginIosPushResolved },
       databaseOptions,
     });
 
@@ -879,6 +881,10 @@ describe("unified approval handlers", () => {
       id: "phone-device",
     });
     expect(handlePluginApprovalResolved).toHaveBeenCalledTimes(1);
+    expect(handlePluginIosPushResolved).toHaveBeenCalledTimes(1);
+    expect(handlePluginIosPushResolved).toHaveBeenCalledWith(
+      expect.objectContaining({ id: pending.record.id, decision: "deny" }),
+    );
     const recipientLookup = context.getApprovalClientConnIds as ReturnType<typeof vi.fn>;
     const recipientOptions = recipientLookup.mock.calls[0]?.[0] as
       | {

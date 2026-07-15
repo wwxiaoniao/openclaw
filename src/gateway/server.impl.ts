@@ -1560,6 +1560,7 @@ export async function startGatewayServer(
     const {
       execApprovalManager,
       forwardPluginApprovalRequest,
+      pluginApprovalIosPushDelivery,
       pluginApprovalManager,
       systemAgentApprovalManager,
       extraHandlers,
@@ -1841,6 +1842,7 @@ export async function startGatewayServer(
           isTerminalEnabled: terminalLaunchPolicy.isEnabled,
           execApprovalManager,
           forwardPluginApprovalRequest,
+          pluginApprovalIosPushDelivery,
           pluginApprovalManager,
           systemAgentApprovalManager,
           listSessionPendingApprovals: approvalSessionEvents.replay,
