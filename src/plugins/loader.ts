@@ -104,6 +104,7 @@ import {
   snapshotPluginProcessGlobalState,
 } from "./plugin-registration-transaction.js";
 import {
+  clearPluginRuntimeArtifactResolutionMemo,
   resolveCanonicalDistRuntimeSource,
   resolvePluginRuntimeArtifact,
 } from "./plugin-runtime-artifact-resolution.js";
@@ -365,7 +366,7 @@ function createPluginCandidatesFromManifestRegistry(
     ...(record.packageManifest !== undefined ? { packageManifest: record.packageManifest } : {}),
   }));
 }
-export function clearActivatedPluginRuntimeState(): void {
+function clearActivatedPluginRegistrationState(): void {
   clearAgentHarnesses();
   clearPluginCommands();
   clearCompactionProviders();
@@ -376,7 +377,13 @@ export function clearActivatedPluginRuntimeState(): void {
   clearMemoryPluginState();
 }
 
+export function clearActivatedPluginRuntimeState(): void {
+  clearPluginRuntimeArtifactResolutionMemo();
+  clearActivatedPluginRegistrationState();
+}
+
 export function clearPluginRegistryLoadCache(): void {
+  clearPluginRuntimeArtifactResolutionMemo();
   pluginLoaderCacheState.clearCachedRegistries();
   fullWorkspacePluginLoaderCacheState.clearCachedRegistries();
 }
@@ -1518,10 +1525,11 @@ export function loadOpenClawPlugins(options: PluginLoadOptions = {}): PluginRegi
   }
   pluginLoaderCacheState.beginLoad(cacheKey);
   try {
-    // Clear previously registered plugin state before reloading.
-    // Skip for non-activating (snapshot) loads to avoid wiping commands from other plugins.
+    // Clear registrations before reloading, but keep artifact paths pinned while
+    // live registry surfaces coexist. Intentional runtime/cache resets clear both.
+    // Skip for non-activating snapshot loads to avoid wiping commands from other plugins.
     if (shouldActivate) {
-      clearActivatedPluginRuntimeState();
+      clearActivatedPluginRegistrationState();
     }
 
     // Lazy: avoid creating module loaders when all plugins are disabled (common in unit tests).
@@ -1867,6 +1875,8 @@ export function loadOpenClawPlugins(options: PluginLoadOptions = {}): PluginRegi
       }
       const pluginRoot = safeRealpathOrResolve(candidate.rootDir);
       const runtimeCandidateEntry = resolvePluginRuntimeArtifact({
+        pluginId,
+        entryKind: "runtime",
         source: candidate.source,
         rootDir: pluginRoot,
         origin: candidate.origin,
@@ -1875,6 +1885,8 @@ export function loadOpenClawPlugins(options: PluginLoadOptions = {}): PluginRegi
       });
       const runtimeSetupEntry = manifestRecord.setupSource
         ? resolvePluginRuntimeArtifact({
+            pluginId,
+            entryKind: "setup",
             source: manifestRecord.setupSource,
             rootDir: pluginRoot,
             origin: candidate.origin,
