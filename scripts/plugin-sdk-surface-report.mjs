@@ -99,7 +99,7 @@ const defaultPublicDeprecatedExportsByEntrypointBudget = Object.freeze({
   "provider-setup": 1,
   "self-hosted-provider-setup": 14,
   routing: 1,
-  runtime: 3,
+  runtime: 2,
   "runtime-logger": 3,
   "runtime-secret-resolution": 5,
   "secret-provider-integration": 4,
@@ -128,15 +128,9 @@ const defaultPublicDeprecatedExportsByEntrypointBudget = Object.freeze({
   "ssrf-runtime": 1,
   "media-runtime": 2,
   "text-runtime": 191,
-  "agent-core": 1,
-  "agent-runtime": 7,
-  "plugin-runtime": 13,
   "channel-secret-runtime": 23,
   "secret-file-runtime": 1,
-  "security-runtime": 7,
-  "agent-harness": 7,
   "agent-harness-runtime": 11,
-  types: 6,
   "agent-config-primitives": 2,
   "command-auth": 81,
   // +2: group scope encoder/key builder mirrored by deprecated compat.
@@ -157,13 +151,12 @@ const defaultPublicDeprecatedExportsByEntrypointBudget = Object.freeze({
   "channel-lifecycle": 23,
   // Registry sweep: 77 packages, zero fetch failures; channel-ingress and dead aliases
   // had zero consumers.
-  "channel-message": 224,
-  "channel-message-runtime": 221,
+  "channel-message": 226,
+  "channel-message-runtime": 223,
   "channel-pairing-paths": 1,
   // Deprecated pairing/conversation exports from the SQLite pairing migration
   // landed on main (#105802) without entrypoint pins; not touched by this PR.
   "channel-pairing": 1,
-  "conversation-runtime": 4,
   "channel-send-result": 1,
   "channel-policy": 15,
   "channel-route": 5,
@@ -180,15 +173,13 @@ const defaultPublicDeprecatedExportsByEntrypointBudget = Object.freeze({
   "memory-core-host-query": 2,
   "memory-core-host-events": 12,
   "memory-core-host-status": 1,
-  "memory-core-host-runtime-core": 1,
-  "memory-host-core": 1,
   "memory-host-files": 7,
   "memory-host-status": 72,
   "provider-auth": 20,
   "provider-oauth-runtime": 2,
   "provider-auth-login": 3,
   "provider-model-shared": 30,
-  "provider-stream-family": 40,
+  "provider-stream-family": 13,
   "provider-stream-shared": 29,
   "provider-stream": 40,
   "provider-web-search": 1,
@@ -221,31 +212,47 @@ export function readPluginSdkSurfaceBudgets(env = process.env) {
       // +2: materializeRequesterScopedMcpToolsForHarnessRun (agent-harness-runtime + compat mirror).
       // +1: matchesNoProxy exposes canonical Undici-compatible bypass selection to plugins.
       // +4: group scope encoder/key builder (channel-policy + compat mirror).
+<<<<<<< HEAD
       // Harvest: channel-ingress -64; dead channel-message dispatch aliases -23.
       // Harvest: retired qa-live-transport-scenarios subpath -6.
       10606,
+||||||| parent of 0014d5100ac (refactor(plugin-sdk): narrow wildcard barrels to explicit used exports)
+      // Harvest: channel-ingress -64; dead channel-message dispatch aliases -23.
+      10612,
+=======
+      // Used-union narrowing: 31 wildcard barrels, 10,612 -> 7,919 exports.
+      7919,
+>>>>>>> 0014d5100ac (refactor(plugin-sdk): narrow wildcard barrels to explicit used exports)
       env,
     ),
     publicFunctionExports: readPluginSdkSurfaceBudgetEnv(
       "OPENCLAW_PLUGIN_SDK_MAX_PUBLIC_FUNCTION_EXPORTS",
       // +2: materializeRequesterScopedMcpToolsForHarnessRun (agent-harness-runtime + compat mirror).
       // +4: group scope encoder/key builder (channel-policy + compat mirror).
+<<<<<<< HEAD
       // Harvest: channel-ingress -19; dead channel-message dispatch aliases -23.
       // Harvest: retired qa-live-transport-scenarios subpath -3.
       5341,
+||||||| parent of 0014d5100ac (refactor(plugin-sdk): narrow wildcard barrels to explicit used exports)
+      // Harvest: channel-ingress -19; dead channel-message dispatch aliases -23.
+      5344,
+=======
+      // Used-union narrowing: 31 wildcard barrels, 5,344 -> 4,426 callable exports.
+      4426,
+>>>>>>> 0014d5100ac (refactor(plugin-sdk): narrow wildcard barrels to explicit used exports)
       env,
     ),
     publicDeprecatedExports: readPluginSdkSurfaceBudgetEnv(
       "OPENCLAW_PLUGIN_SDK_MAX_PUBLIC_DEPRECATED_EXPORTS",
       // +2: group scope encoder/key builder mirrored by deprecated compat.
-      // Harvest: channel-ingress -8; dead channel-message dispatch aliases -23.
-      // +77: five zero-consumer subpaths enter their removal window.
-      3339,
+      // Used-union narrowing: inherited deprecated exports, 3,262 -> 2,885.
+      2885,
       env,
     ),
     publicWildcardReexports: readPluginSdkSurfaceBudgetEnv(
       "OPENCLAW_PLUGIN_SDK_MAX_PUBLIC_WILDCARD_REEXPORTS",
-      209,
+      // Used-union narrowing: 31 barrels remove 103 wildcard re-exports, 209 -> 106.
+      106,
       env,
     ),
   };
