@@ -245,8 +245,9 @@ export function readPluginSdkSurfaceBudgets(env = process.env) {
     publicDeprecatedExports: readPluginSdkSurfaceBudgetEnv(
       "OPENCLAW_PLUGIN_SDK_MAX_PUBLIC_DEPRECATED_EXPORTS",
       // +2: group scope encoder/key builder mirrored by deprecated compat.
-      // Used-union narrowing: inherited deprecated exports, 3,262 -> 2,885.
-      2885,
+      // Used-union narrowing (3,262 -> 2,885) plus 77 newly windowed
+      // zero-consumer subpath exports entering their removal window.
+      2962,
       env,
     ),
     publicWildcardReexports: readPluginSdkSurfaceBudgetEnv(
