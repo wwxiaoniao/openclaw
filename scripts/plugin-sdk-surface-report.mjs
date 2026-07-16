@@ -213,8 +213,9 @@ export function readPluginSdkSurfaceBudgets(env = process.env) {
       // +1: matchesNoProxy exposes canonical Undici-compatible bypass selection to plugins.
       // +4: group scope encoder/key builder (channel-policy + compat mirror).
       // Used-union narrowing: 31 wildcard barrels, 10,612 -> 7,919 exports.
-      // +3: proxy stream API (streamProxy + 2 types) retained until agent-core demotion.
-      7922,
+      // +3: proxy stream API retained until agent-core demotion; -6: parallel
+      // main harvests (qa-live-transport-scenarios retirement).
+      7916,
       env,
     ),
     publicFunctionExports: readPluginSdkSurfaceBudgetEnv(
@@ -222,8 +223,8 @@ export function readPluginSdkSurfaceBudgets(env = process.env) {
       // +2: materializeRequesterScopedMcpToolsForHarnessRun (agent-harness-runtime + compat mirror).
       // +4: group scope encoder/key builder (channel-policy + compat mirror).
       // Used-union narrowing: 31 wildcard barrels, 5,344 -> 4,426 callable exports.
-      // +1: streamProxy retained until agent-core's announced public demotion.
-      4427,
+      // +1: streamProxy retained; -3: parallel main harvests.
+      4424,
       env,
     ),
     publicDeprecatedExports: readPluginSdkSurfaceBudgetEnv(
