@@ -34,6 +34,8 @@ export const KNIP_OPTIONAL_UNUSED_FILE_ALLOWLIST = [
   "src/plugins/contracts/tts-contract-suites.ts",
   "src/plugins/runtime-sidecar-paths-baseline.ts",
   "src/tasks/task-registry-control.runtime.ts",
+  // Loaded at runtime via loadBundledPluginPublicSurfaceModuleSync (src/plugin-sdk/qa-lab.ts).
+  "extensions/qa-lab/cli.ts",
   "extensions/qa-lab/src/auth-profile.fixture.ts",
   "extensions/qa-lab/src/codex-plugin.fixture.ts",
   "extensions/qa-lab/src/mantis-phase-timer.runtime.ts",
